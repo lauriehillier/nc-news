@@ -1,8 +1,24 @@
 #root {
   max-width: 1280px;
-  min-width: 320px;
-  margin: 0 auto;
-  padding: 2rem;
+  background-color: rgb(233, 231, 224);
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  padding: 5px;
+}
+#articles {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
   text-align: center;
-  background-color: rgb(230, 228, 218);
+  padding-top: 10px;
+}
+a {
+  text-decoration: none;
+  color: black;
 }
