@@ -10,7 +10,7 @@ import { ncNewsPost } from "../api/APIUtils";
 
 export default function AddComment({ setCommentList, article_id }) {
   const { user } = useContext(UserContext);
-  const [newComment, setNewComment] = useState(null);
+  const [newComment, setNewComment] = useState("");
   const [formError, setFormError] = useState(false);
   const [apiErr, setApiErr] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -39,6 +39,7 @@ export default function AddComment({ setCommentList, article_id }) {
     })
       .then(() => {
         setSubmitted(false);
+        setNewComment("");
       })
       .catch((err) => {
         setSubmitted(false);
@@ -71,6 +72,7 @@ export default function AddComment({ setCommentList, article_id }) {
             error={formError ? true : false}
             helperText={formError ? "You must write a comment" : null}
             onChange={(event) => handleInput(event.target.value)}
+            value={newComment}
           />
           <CardActions>
             <Button
