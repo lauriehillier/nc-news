@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Header() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

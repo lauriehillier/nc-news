@@ -6,9 +6,8 @@ import CommentCard from "./CommentCard";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/system/Box";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 
-export default function SingleArticle() {
+  export default function SingleArticle() {
   const [articleData, setArticleData] = useState([]);
   const [commentList, setCommentList] = useState([]);
   const [isError, setIsError] = useState(false);
