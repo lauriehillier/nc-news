@@ -28,7 +28,7 @@ export default function ArticleCard({ article }) {
   };
 
   const formattedDate = article.created_at
-    ? format(parseISO(article.created_at), "HH:ss aaa, eeee do MMM, yyyy")
+    ? format(parseISO(article.created_at), "HH:mm aaa, eeee do MMM, yyyy")
     : null;
   const img_height = article.body ? 400 : 140;
 
