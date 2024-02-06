@@ -9,3 +9,6 @@ export default function ncNewsGet(url) {
 export function ncNewsPatch(url, request) {
   return ncNewsApi.patch(url, request);
 }
+export function ncNewsPost(url, request) {
+  return ncNewsApi.post(url, request);
+}

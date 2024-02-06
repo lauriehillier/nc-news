@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function CommentCard({ comment }) {
   const formattedDate = comment.created_at
-    ? format(parseISO(comment.created_at), "HH:ss aaa, eeee do MMM, yyyy")
+    ? format(parseISO(comment.created_at), "HH:mm aaa, eeee do MMM, yyyy")
     : null;
   return (
     <Card sx={{ maxWidth: 800, width: 1, marginTop: 1  }}>

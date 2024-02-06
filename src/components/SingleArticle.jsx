@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ncNewsGet from "../api/APIUtils";
 import ArticleCard from "./ArticleCard";
@@ -6,8 +6,11 @@ import CommentCard from "./CommentCard";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/system/Box";
 import Card from "@mui/material/Card";
+import { UserContext } from "../contexts/UserContext";
+import AddComment from "./AddComment";
 
-  export default function SingleArticle() {
+export default function SingleArticle() {
+  const { user } = useContext(UserContext);
   const [articleData, setArticleData] = useState([]);
   const [commentList, setCommentList] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -37,6 +40,7 @@ import Card from "@mui/material/Card";
   return (
     <>
       <ArticleCard article={articleData} />
+      {user ? <AddComment setCommentList={setCommentList} article_id={articleData.article_id}/> : null}
       <div id="comments">
         <Box component="div">
           <Typography variant="h5">
