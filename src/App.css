@@ -9,15 +9,19 @@ ul {
 li {
   padding: 5px;
 }
-#articles {
+main {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
   text-align: center;
-  padding-top: 10px;
+  padding-bottom: 10px;
+
 }
+/* #comments {
+  width: 100%
+} */
 a {
   text-decoration: none;
   color: black;

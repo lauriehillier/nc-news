@@ -9,9 +9,9 @@ export default function ArticleCard({ article }) {
   const formattedDate = article.created_at
     ? format(parseISO(article.created_at), "HH:ss aaa, eeee do MMM, yyyy")
     : null;
-  const img_height = article.body ? 1 : 140;
+  const img_height = article.body ? 500 : 140;
   return (
-    <Card sx={{ maxWidth: 800, width: 1 }}>
+    <Card sx={{ maxWidth: 800, width: 1, marginTop: 1 }}>
       <CardMedia
         sx={{ height: img_height }}
         image={article.article_img_url}
@@ -39,7 +39,8 @@ export default function ArticleCard({ article }) {
           <Link to="">{article.topic}</Link> at {formattedDate}
         </Typography>
         <Typography variant="overline">
-          Rating: {article.votes} // Comments: {article.comment_count}
+          Rating: {article.votes}{" "}
+          {article.body ? null : `// Comments: ${article.comment_count}`} 
         </Typography>
       </CardContent>
     </Card>
