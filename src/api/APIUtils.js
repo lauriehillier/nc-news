@@ -12,3 +12,6 @@ export function ncNewsPatch(url, request) {
 export function ncNewsPost(url, request) {
   return ncNewsApi.post(url, request);
 }
+export function ncNewsDelete(url) {
+  return ncNewsApi.delete(url);
+}

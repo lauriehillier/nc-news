@@ -31,7 +31,6 @@ export default function ArticleCard({ article }) {
       }
     );
   };
-  console.log(userVote, "log it");
   const formattedDate = article.created_at
     ? format(parseISO(article.created_at), "HH:mm aaa, eeee do MMM, yyyy")
     : null;
