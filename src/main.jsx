@@ -8,11 +8,14 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { UserProvider } from "./contexts/UserContext.jsx";
+import { LocationProvider } from "./contexts/LocationContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <UserProvider>
-      <App />
+      <LocationProvider>
+        <App />
+      </LocationProvider>
     </UserProvider>
   </BrowserRouter>
 );

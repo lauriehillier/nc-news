@@ -1,12 +1,13 @@
+import { useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import Articles from "./Articles";
 import { LocationContext } from "../contexts/LocationContext";
+import Articles from "./Articles";
 
-export default function Home() {
+export default function Topic() {
+  const { topic } = useParams();
   const { setLocation } = useContext(LocationContext);
   useEffect(() => {
-    setLocation("home");
-  }, []);
-
+    setLocation(topic);
+  }, [topic]);
   return <Articles />;
 }

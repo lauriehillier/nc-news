@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -18,6 +18,7 @@ export default function ArticleCard({ article }) {
   const [votes, setVotes] = useState(article.votes);
   const [err, setErr] = useState(null);
   const [userVote, setUserVote] = useState(null);
+  const { topic, id } = useParams();
 
   const onClickVote = (vote) => {
     setUserVote(!userVote ? vote : null);
@@ -46,9 +47,7 @@ export default function ArticleCard({ article }) {
       />
       <CardContent>
         <Typography gutterBottom variant="h4" component="div">
-          <Link to={article.topic + "/" + article.article_id}>
-            {article.title}
-          </Link>
+        {id ? <>{article.title}</> : <><Link to={"../" + article.topic + "/" + article.article_id}>{article.title}</Link></>}
         </Typography>
         {article.body ? (
           <Typography
@@ -60,8 +59,9 @@ export default function ArticleCard({ article }) {
           </Typography>
         ) : null}
         <Typography variant="body2" color="text.secondary">
-          Posted by <Link to="">{article.author}</Link> in{" "}
-          <Link to="">{article.topic}</Link> at {formattedDate}
+          Posted by <Link to="../">{article.author}</Link>{" "}
+          {id || !topic ? <>in <Link to={"../" + article.topic}>{article.topic}</Link> </> : null}
+          at {formattedDate}
         </Typography>
         <Typography variant="overline">
           Rating:
