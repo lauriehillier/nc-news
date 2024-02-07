@@ -51,7 +51,7 @@ export default function AddComment({ setCommentList, article_id }) {
       });
   };
   const handleInput = (input) => {
-    setFormError(input ? false : true);
+    setFormError(false);
     setNewComment(input);
   };
   return (
