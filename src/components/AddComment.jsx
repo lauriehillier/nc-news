@@ -8,7 +8,11 @@ import { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { ncNewsPost } from "../api/APIUtils";
 
-export default function AddComment({ setCommentList, article_id }) {
+export default function AddComment({
+  setCommentList,
+  article_id,
+  setArticleData,
+}) {
   const { user } = useContext(UserContext);
   const [newComment, setNewComment] = useState("");
   const [formError, setFormError] = useState(false);
@@ -33,19 +37,36 @@ export default function AddComment({ setCommentList, article_id }) {
     setCommentList((currentCommentList) => {
       return [commentObj, ...currentCommentList];
     });
+    setArticleData((currentArticle) => {
+      return {
+        ...currentArticle,
+        comment_count: ++currentArticle.comment_count,
+      };
+    });
     ncNewsPost(`/articles/${article_id}/comments`, {
       username: user.username,
       body: newComment,
     })
-      .then(() => {
+      .then(({ data: { comment } }) => {
         setSubmitted(false);
         setNewComment("");
+        setCommentList((currentCommentList) => {
+          const updatedComments = [...currentCommentList];
+          updatedComments[0].comment_id = comment.comment_id;
+          return [...updatedComments];
+        });
       })
       .catch((err) => {
         setSubmitted(false);
         setCommentList((currentCommentList) => {
           currentCommentList.shift();
           return [...currentCommentList];
+        });
+        setArticleData((currentArticle) => {
+          return {
+            ...currentArticle,
+            comment_count: --currentArticle.comment_count,
+          };
         });
         setApiErr("Something went wrong, please try commenting again.");
       });

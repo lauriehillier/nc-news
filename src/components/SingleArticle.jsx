@@ -16,7 +16,6 @@ export default function SingleArticle() {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
-
   useEffect(() => {
     setIsLoading(true);
     Promise.all([
@@ -40,16 +39,32 @@ export default function SingleArticle() {
   return (
     <>
       <ArticleCard article={articleData} />
-      {user ? <AddComment setCommentList={setCommentList} article_id={articleData.article_id}/> : null}
+      {user ? (
+        <AddComment
+          setCommentList={setCommentList}
+          article_id={articleData.article_id}
+          setArticleData={setArticleData}
+        />
+      ) : null}
       <div id="comments">
         <Box component="div">
           <Typography variant="h5">
-            Comments {commentList.length ? `(${commentList.length})` : null}
+            Comments{" "}
+            {articleData.comment_count
+              ? `(${articleData.comment_count})`
+              : null}
           </Typography>
         </Box>
         {commentList.length ? (
           commentList.map((comment) => {
-            return <CommentCard key={comment.comment_id} comment={comment} />;
+            return (
+              <CommentCard
+                key={comment.comment_id}
+                comment={comment}
+                setCommentList={setCommentList}
+                setArticleData={setArticleData}
+              />
+            );
           })
         ) : (
           <Card sx={{ maxWidth: 800, minWidth: 300, marginTop: 1, padding: 1 }}>
