@@ -8,8 +8,8 @@ export default function SiteManager() {
     <main>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/:topic/:id" element={<SingleArticle />} />
         <Route path="/:topic/" element={<Topic />} />
+        <Route path="/:topic/:id" element={<SingleArticle />} />
       </Routes>
     </main>
   );

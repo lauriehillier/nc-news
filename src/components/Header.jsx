@@ -43,7 +43,6 @@ export default function Header() {
         setErr("Something went wrong, please try refreshing the page.");
       });
   }, []);
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -74,8 +73,7 @@ export default function Header() {
               open={open}
               onClose={handleClose}
               sx={{
-                maxHeight: ITEM_HEIGHT * 8,
-              }}
+                maxHeight: ITEM_HEIGHT * 8 }}
             >
               {err ? (
                 <MenuItem dense={true} sx={{ whiteSpace: 'normal' }}>
