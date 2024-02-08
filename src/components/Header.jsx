@@ -30,7 +30,10 @@ export default function Header() {
     setAnchorEl(null);
   };
   const handleNav = (event) => {
-    const url = event.target.innerText === "home" ? "" : event.target.innerText;
+    const url =
+      event.target.innerText === "home"
+        ? ""
+        : "topic/" + event.target.innerText;
     navigate(`/${url}`);
     setAnchorEl(null);
   };
@@ -73,10 +76,11 @@ export default function Header() {
               open={open}
               onClose={handleClose}
               sx={{
-                maxHeight: ITEM_HEIGHT * 8 }}
+                maxHeight: ITEM_HEIGHT * 8,
+              }}
             >
               {err ? (
-                <MenuItem dense={true} sx={{ whiteSpace: 'normal' }}>
+                <MenuItem dense={true} sx={{ whiteSpace: "normal" }}>
                   {err}
                 </MenuItem>
               ) : (

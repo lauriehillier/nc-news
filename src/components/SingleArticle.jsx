@@ -9,6 +9,7 @@ import Card from "@mui/material/Card";
 import { UserContext } from "../contexts/UserContext";
 import AddComment from "./AddComment";
 import { LocationContext } from "../contexts/LocationContext";
+import ErrorHandling from "./ErrorHandling";
 
 export default function SingleArticle() {
   const { user } = useContext(UserContext);
@@ -34,14 +35,14 @@ export default function SingleArticle() {
         setArticleData(response[0].data.article);
         setCommentList(response[1].data.comments);
       })
-      .catch(() => {
+      .catch((err) => {
         setIsLoading(false);
-        setIsError(true);
+        setIsError(err);
       });
   }, []);
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Oops... Something went wrong. Please try again.</p>;
+  if (isError) return <ErrorHandling code={isError.response.status} msg={isError.response.data.msg}/>
 
   return (
     <>
@@ -53,7 +54,7 @@ export default function SingleArticle() {
           setArticleData={setArticleData}
         />
       ) : null}
-      <div id="comments">
+       <div id="comments">
         <Box component="div">
           <Typography variant="h5">
             Comments{" "}

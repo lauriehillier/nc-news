@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import ncNewsGet from "../api/APIUtils";
 import { useParams, useSearchParams } from "react-router-dom";
 import Sorting from "./Sorting";
+import ErrorHandling from "./ErrorHandling";
+import Typography from "@mui/material/Typography";
+import { Paper } from "@mui/material";
 
 export default function Articles({}) {
   const [order, setOrder] = useState(undefined);
@@ -12,7 +15,7 @@ export default function Articles({}) {
   const [isLoading, setIsLoading] = useState(false);
   const { topic } = useParams();
 
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
   const urlOrder = searchParams.get("order");
   const urlSort = searchParams.get("sort");
   const sortString = {
@@ -27,7 +30,7 @@ export default function Articles({}) {
         Object.keys(sortString).find((key) => sortString[key] === urlSort)
       );
   }, [urlOrder, urlSort]);
-  
+
   useEffect(() => {
     setIsLoading(true);
     ncNewsGet("/articles", { params: { topic, order: order, sort_by: sort } })
@@ -35,9 +38,10 @@ export default function Articles({}) {
         setIsLoading(false);
         setArticlesList(articles);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setIsLoading(false);
-        setIsError(true);
+        setIsError(err);
       });
   }, [topic, order, sort]);
 
@@ -47,7 +51,26 @@ export default function Articles({}) {
         <p>Loading...</p>
       </div>
     );
-  if (isError) return <p>Oops... Something went wrong. Please try again.</p>;
+  if (isError)
+    return (
+      <ErrorHandling
+        code={isError.response.status}
+        msg={isError.response.data.msg}
+      />
+    );
+
+  if (!articlesList.length)
+    return (
+      <Paper elevation={1} sx={{ maxWidth: 800, width: 1, mt: 1 }}>
+        <Typography
+          sx={{ padding: 1 }}
+          variant="body1"
+          color="text.secondary"
+        >
+          No articles yet...
+        </Typography>
+      </Paper>
+    );
 
   return (
     <div id="articles">

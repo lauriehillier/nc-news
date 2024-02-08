@@ -44,8 +44,10 @@ export default function CommentCard({
 
   return (
     <Card sx={{ maxWidth: 800, width: 1, marginTop: 1 }}>
-      <CardContent sx={{ padding: "1px" }}>
-        <Typography variant="body1" color="text.secondary" sx={{ paddingY: 1 }}>
+      <CardContent sx={{ padding: 1,"&:last-child": {
+      paddingBottom: 0.5,
+    } }}>
+        <Typography variant="body1" color="text.secondary" sx={{ padding: 1 }}>
           {comment.body}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -59,7 +61,7 @@ export default function CommentCard({
             variant="contained"
             size="small"
             disabled={deleteAction}
-            sx={{ marginLeft: "auto", marginRight: "auto" }}
+            sx={{ marginLeft: "auto", marginRight: "auto", mb: 1 }}
             onClick={handleDelete}
           >
             {deleteAction ? "Deleting Comment..." : "Delete Comment"}
