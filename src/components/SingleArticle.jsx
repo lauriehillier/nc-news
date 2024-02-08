@@ -8,14 +8,21 @@ import Box from "@mui/system/Box";
 import Card from "@mui/material/Card";
 import { UserContext } from "../contexts/UserContext";
 import AddComment from "./AddComment";
+import { LocationContext } from "../contexts/LocationContext";
 
 export default function SingleArticle() {
   const { user } = useContext(UserContext);
+  const { setLocation } = useContext(LocationContext);
   const [articleData, setArticleData] = useState([]);
   const [commentList, setCommentList] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { id } = useParams();
+  const { id, topic } = useParams();
+  
+  useEffect(() => {
+    setLocation(topic);
+  }, []);
+
   useEffect(() => {
     setIsLoading(true);
     Promise.all([
