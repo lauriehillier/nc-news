@@ -18,7 +18,7 @@ main {
   flex-direction: column;
   width: 100%;
   text-align: center;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 }
 a {
   text-decoration: none;

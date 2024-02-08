@@ -1,12 +1,11 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/system/Box";
-import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { ncNewsPost } from "../api/APIUtils";
+import { Paper } from "@mui/material";
 
 export default function AddComment({
   setCommentList,
@@ -77,11 +76,11 @@ export default function AddComment({
   };
   return (
     <>
-      <Box component="div">
+      <Box component="div" sx={{ maxWidth: 800, width: 1 }}>
         <Typography variant="h5">Add a Comment</Typography>
       </Box>
-      <Card sx={{ maxWidth: 800, width: 1, padding: 1 }}>
-        <Box component="form">
+      <Paper elevation={1} sx={{ maxWidth: 800, width: 1, maxHeight: 1 }}>
+        <Box component="form" sx={{ padding: 1 }}>
           <TextField
             required
             multiline
@@ -95,23 +94,21 @@ export default function AddComment({
             onChange={(event) => handleInput(event.target.value)}
             value={newComment}
           />
-          <CardActions>
-            <Button
-              variant="contained"
-              disabled={submitted}
-              sx={{ marginLeft: "auto", marginRight: "auto" }}
-              onClick={handleSubmit}
-            >
-              Add Comment
-            </Button>
-          </CardActions>
+          <Button
+            variant="contained"
+            disabled={submitted}
+            sx={{ mt: 1, marginLeft: "auto", marginRight: "auto" }}
+            onClick={handleSubmit}
+          >
+            Add Comment
+          </Button>
           {apiErr ? (
             <Typography variant="subtitle2" sx={{ lineHeight: 1 }}>
               {apiErr}
             </Typography>
           ) : null}
         </Box>
-      </Card>
+      </Paper>
     </>
   );
 }

@@ -38,16 +38,26 @@ export default function ArticleCard({ article }) {
   const img_height = article.body ? 400 : 140;
 
   return (
-    <Card sx={{ maxWidth: 800, width: 1, marginTop: 1, maxHeight: 1}}>
+    <Card sx={{ maxWidth: 800, width: 1, marginTop: 1, maxHeight: 1 }}>
       <CardMedia
         sx={{ height: img_height }}
         image={article.article_img_url}
         title="article image"
         component="img"
       />
-      <CardContent >
+      <CardContent sx={{ "&:last-child": {
+      paddingBottom: 0.5,
+    }}}>
         <Typography gutterBottom variant="h4" component="div">
-        {id ? <>{article.title}</> : <><Link to={"../" + article.topic + "/" + article.article_id}>{article.title}</Link></>}
+          {id ? (
+            <>{article.title}</>
+          ) : (
+            <>
+              <Link to={"../" + article.topic + "/" + article.article_id}>
+                {article.title}
+              </Link>
+            </>
+          )}
         </Typography>
         {article.body ? (
           <Typography
@@ -60,7 +70,11 @@ export default function ArticleCard({ article }) {
         ) : null}
         <Typography variant="body2" color="text.secondary">
           Posted by <Link to="../">{article.author}</Link>{" "}
-          {id || !topic ? <>in <Link to={"../" + article.topic}>{article.topic}</Link> </> : null}
+          {id || !topic ? (
+            <>
+              in <Link to={"../topic/" + article.topic}>{article.topic}</Link>{" "}
+            </>
+          ) : null}
           at {formattedDate}
         </Typography>
         <Typography variant="overline">
