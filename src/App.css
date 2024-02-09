@@ -27,11 +27,11 @@ a {
 }
 #articles, #article {
   padding: 5px;
-  min-width: 90%;
+ 
 }
 #comments {
   padding: 5px;
-  min-width: 90%;
+
 }
 .header > a {
   text-decoration: none;
