@@ -10,13 +10,14 @@ import { UserContext } from "../contexts/UserContext";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ncNewsGet from "../api/APIUtils";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { LocationContext } from "../contexts/LocationContext";
-import TopicIcon from '@mui/icons-material/Topic';
-import HomeIcon from '@mui/icons-material/Home';
+import TopicIcon from "@mui/icons-material/Topic";
+import HomeIcon from "@mui/icons-material/Home";
+import { Avatar, IconButton, Tooltip } from "@mui/material";
 
 export default function Header() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [topics, setTopics] = useState([]);
   const [err, setErr] = useState(null);
@@ -24,7 +25,17 @@ export default function Header() {
   const { location } = useContext(LocationContext);
   const navigate = useNavigate();
   const ITEM_HEIGHT = 48;
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+  const handleLogout = () => {
+    setUser({});
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,18 +73,23 @@ export default function Header() {
               margin: "auto",
             }}
           >
-            <Link to="../" className="nav-link"><Typography variant="h6" component="div"
-            sx={{ml: "20px",
-              
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: '.2rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}>
-              NC NEWS
-            </Typography></Link>
+            <Link to="../" className="nav-link">
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  ml: "20px",
+
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".2rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                NC NEWS
+              </Typography>
+            </Link>
             <Typography component="div" sx={{ flexGrow: 1 }}>
               <Button
                 color="inherit"
@@ -97,7 +113,7 @@ export default function Header() {
                 open={open}
                 onClose={handleClose}
                 sx={{
-                  maxHeight: ITEM_HEIGHT * 8
+                  maxHeight: ITEM_HEIGHT * 8,
                 }}
               >
                 {err ? (
@@ -108,20 +124,65 @@ export default function Header() {
                   topics.map((topic) => (
                     <MenuItem
                       dense={true}
-                      sx={{ width: "25ch"}}
+                      sx={{ width: "25ch" }}
                       key={topic.slug}
                       selected={topic.slug === location}
                       onClick={handleNav}
-
                     >
-                     {topic.slug === "home" ? <HomeIcon fontSize="small" sx={{mr: 1}}/> : <TopicIcon fontSize="small" sx={{mr: 1}}/>}{topic.slug.length > 25 ? topic.slug.slice(0, 22) + "..." : topic.slug}
+                      {topic.slug === "home" ? (
+                        <HomeIcon fontSize="small" sx={{ mr: 1 }} />
+                      ) : (
+                        <TopicIcon fontSize="small" sx={{ mr: 1 }} />
+                      )}
+                      {topic.slug.length > 25
+                        ? topic.slug.slice(0, 22) + "..."
+                        : topic.slug}
                     </MenuItem>
                   ))
                 )}
                 {}
               </Menu>
             </Typography>
-            <Button color="inherit">{user ? user.username : "Login"}</Button>
+            
+              {user.username ? (
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Open settings">
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0, border: 1, borderColor: "white" }}
+                    >
+                      <Avatar
+                        alt={`${user.username}'s avatar`}
+                        src={user.avatar_url}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "35px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    MenuListProps={{ sx: { py: 0 } }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem onClick={handleCloseUserMenu} dense={true}>
+                      <Typography textAlign="center" onClick={handleLogout}>Logout</Typography>
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              ) : (
+               <Button color="inherit" component={Link} to="../login">Login</Button>
+              )}
+            
           </Box>
         </Toolbar>
       </AppBar>

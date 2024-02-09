@@ -25,13 +25,10 @@ a {
   color: black;
   font-weight: bold;
 }
-#articles, #article {
+#articles, #article, #comments, #users {
   padding: 5px;
+  width: 90%
  
-}
-#comments {
-  padding: 5px;
-
 }
 .header > a {
   text-decoration: none;
