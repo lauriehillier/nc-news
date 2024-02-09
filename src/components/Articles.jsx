@@ -39,7 +39,6 @@ export default function Articles({}) {
         setArticlesList(articles);
       })
       .catch((err) => {
-        console.log(err);
         setIsLoading(false);
         setIsError(err);
       });
