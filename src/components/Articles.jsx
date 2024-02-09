@@ -19,7 +19,6 @@ export default function Articles({}) {
   const { topic } = useParams();
   const [page, setPage] = useState(1);
   let [searchParams, setSearchParams] = useSearchParams();
-  console.log(page);
   const handlePageChange = (event, value) => {
     setPage(value);
     setSearchParams({
@@ -42,13 +41,15 @@ export default function Articles({}) {
         Object.keys(sortString).find((key) => sortString[key] === urlSort) ||
           urlSort
       );
-      if (urlPage !== page) setPage(urlPage)
-  }, [urlOrder, urlSort,urlPage]);
+    if (urlPage !== page) setPage(urlPage);
+  }, [urlOrder, urlSort, urlPage]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsLoading(true);
-    ncNewsGet("/articles", { params: { topic, order: order, sort_by: sort, p: page } })
+    ncNewsGet("/articles", {
+      params: { topic, order: order, sort_by: sort, p: page },
+    })
       .then(({ data: { articles } }) => {
         setIsLoading(false);
         setArticlesList(articles);
@@ -59,7 +60,6 @@ export default function Articles({}) {
         setIsError(err);
       });
   }, [topic, order, sort, page]);
-  console.log(totalArticles);
 
   if (isLoading)
     return (

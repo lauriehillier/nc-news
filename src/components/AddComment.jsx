@@ -86,7 +86,7 @@ export default function AddComment({
             multiline
             minRows={2}
             fullWidth
-            label="What would you like to say?"
+            label={`Hi, ${user.username}! What would you like to say?`}
             id="comment"
             disabled={submitted}
             error={formError ? true : false}

@@ -44,10 +44,6 @@ export default function SingleArticle() {
   }, [page]);
   const handlePageChange = (event, value) => {
     setPage(value);
-    // setSearchParams({
-    //   ...Object.fromEntries([...searchParams]),
-    //   p: value,
-    // });
   };
   if (isLoading) return <p>Loading...</p>;
   if (isError)
@@ -62,7 +58,7 @@ export default function SingleArticle() {
     <>
       <div id="article">
         <ArticleCard article={articleData} />
-        {user ? (
+        {user.username ? (
           <AddComment
             setCommentList={setCommentList}
             article_id={articleData.article_id}

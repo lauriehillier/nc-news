@@ -41,13 +41,12 @@ export default function Sorting({ order, sort, setPage }) {
         ...Object.fromEntries([...searchParams]),
         order: "asc",
       });
-      console.log("hat");
+
     } else {
       setSearchParams({
         ...Object.fromEntries([...searchParams]),
         order: "desc",
       });
-      console.log("hat2");
     }
   };
 
