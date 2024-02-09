@@ -11,6 +11,8 @@ import AddComment from "./AddComment";
 import { LocationContext } from "../contexts/LocationContext";
 import ErrorHandling from "./ErrorHandling";
 import { Pagination, Paper, Stack } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
+import PaginationBar from "./PaginationBar";
 
 export default function SingleArticle() {
   const { user } = useContext(UserContext);
@@ -21,16 +23,20 @@ export default function SingleArticle() {
   const [isLoading, setIsLoading] = useState(false);
   const { id, topic } = useParams();
   const [page, setPage] = useState(1);
+  let [searchParams, setSearchParams] = useSearchParams();
+  const urlPage = searchParams.get("p");
   useEffect(() => {
     setLocation(topic);
   }, []);
-
+  useEffect(() => {
+    if (urlPage !== page) setPage(urlPage);
+  }, [urlPage]);
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsLoading(true);
     Promise.all([
       ncNewsGet(`/articles/${id}`),
-      ncNewsGet(`/articles/${id}/comments`, {params: {p: page}}),
+      ncNewsGet(`/articles/${id}/comments`, { params: { p: page } }),
     ])
       .then((response) => {
         setIsLoading(false);
@@ -77,6 +83,12 @@ export default function SingleArticle() {
         </Box>
         {commentList.length ? (
           <>
+            {" "}
+            <PaginationBar
+              total={Math.ceil(articleData.comment_count / 10)}
+              page={page}
+              setPage={setPage}
+            />
             {commentList.map((comment) => {
               return (
                 <CommentCard
@@ -87,15 +99,11 @@ export default function SingleArticle() {
                 />
               );
             })}
-            <Paper elevation={1} sx={{ maxWidth: 1280, width: 1, mt: 1 }}>
-              <Stack useFlexGap={true} alignItems="center">
-                <Pagination
-                  count={Math.ceil(articleData.comment_count / 10)}
-                  page={+page || 1}
-                  onChange={handlePageChange}
-                />
-              </Stack>
-            </Paper>
+            <PaginationBar
+              total={Math.ceil(articleData.comment_count / 10)}
+              page={page}
+              setPage={setPage}
+            />
           </>
         ) : (
           <Card

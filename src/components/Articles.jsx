@@ -5,9 +5,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 import Sorting from "./Sorting";
 import ErrorHandling from "./ErrorHandling";
 import Typography from "@mui/material/Typography";
-import { Paper } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+import { Paper, Skeleton } from "@mui/material";
+import PaginationBar from "./PaginationBar";
 
 export default function Articles({}) {
   const [order, setOrder] = useState(undefined);
@@ -42,13 +41,14 @@ export default function Articles({}) {
           urlSort
       );
     if (urlPage !== page) setPage(urlPage);
-  }, [urlOrder, urlSort, urlPage]);
+  }, [urlOrder, urlPage, urlSort]);
 
+  console.log(isLoading);
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsLoading(true);
     ncNewsGet("/articles", {
-      params: { topic, order: order, sort_by: sort, p: page },
+      params: { topic, order: order || urlOrder, sort_by: sort, p: page },
     })
       .then(({ data: { articles } }) => {
         setIsLoading(false);
@@ -58,15 +58,10 @@ export default function Articles({}) {
       .catch((err) => {
         setIsLoading(false);
         setIsError(err);
+        console.log(err)
       });
   }, [topic, order, sort, page]);
 
-  if (isLoading)
-    return (
-      <div>
-        <p>Loading...</p>
-      </div>
-    );
   if (isError)
     return (
       <ErrorHandling
@@ -75,7 +70,7 @@ export default function Articles({}) {
       />
     );
 
-  if (!articlesList.length)
+  if (!articlesList.length && !isLoading)
     return (
       <Paper elevation={1} sx={{ maxWidth: 1280, width: 1, mt: 1 }}>
         <Typography sx={{ padding: 1 }} variant="body1" color="text.secondary">
@@ -87,24 +82,41 @@ export default function Articles({}) {
   return (
     <div id="articles">
       <Sorting
-        setOrder={setOrder}
         order={order}
         sort={sort}
         setSort={setSort}
         setPage={setPage}
+        setOrder={setOrder}
       />
-      {articlesList.map((article) => {
-        return <ArticleCard key={article.article_id} article={article} />;
-      })}
-      <Paper elevation={1} sx={{ maxWidth: 1280, width: 1, mt: 1 }}>
-        <Stack useFlexGap={true} alignItems="center">
-          <Pagination
-            count={Math.ceil(totalArticles / 10)}
-            page={+page || 1}
-            onChange={handlePageChange}
+      {!isLoading ? (
+        <>
+        <PaginationBar total={Math.ceil(totalArticles / 10)} page={page} setPage={setPage}/>
+          {articlesList.map((article) => {
+            return <ArticleCard key={article.article_id} article={article} />;
+          })}
+          <PaginationBar total={Math.ceil(totalArticles / 10)} page={page} setPage={setPage}/>
+        </>
+      ) : (
+        <Paper elevation={1} sx={{ maxWidth: 1280, width: 1, mt: 1, textAlign:"center" }}>
+          <Skeleton
+            variant="rectangular"
+            height={140}
+            sx={{width:1}}
           />
-        </Stack>
-      </Paper>
+          <Skeleton
+            variant="text"
+            sx={{width: 0.75, fontSize: "3rem", ml: "auto", mr: "auto"}}
+          />
+          <Skeleton
+            variant="text"
+            sx={{width: 0.5, ml: "auto", mr: "auto"}}
+          />
+           <Skeleton
+            variant="text"
+            sx={{width: 0.3, ml: "auto", mr: "auto"}}
+          />
+        </Paper>
+      )}
     </div>
   );
 }
