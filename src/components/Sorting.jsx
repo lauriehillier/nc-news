@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export default function Sorting({ order, sort }) {
+export default function Sorting({ order, sort, setPage }) {
   const [anchorEl, setAnchorEl] = useState(null);
   let [searchParams, setSearchParams] = useSearchParams();
   const sortString = {
@@ -30,18 +30,24 @@ export default function Sorting({ order, sort }) {
       sort: sortString[option],
     });
     setAnchorEl(null);
+    setPage(1);
+    searchParams.delete("p");
   };
   const handleOrderClick = () => {
+    setPage(1);
+    searchParams.delete("p");
     if (!order || order === "desc") {
       setSearchParams({
         ...Object.fromEntries([...searchParams]),
         order: "asc",
       });
+      console.log("hat");
     } else {
       setSearchParams({
         ...Object.fromEntries([...searchParams]),
         order: "desc",
       });
+      console.log("hat2");
     }
   };
 
