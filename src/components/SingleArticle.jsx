@@ -19,7 +19,7 @@ export default function SingleArticle() {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { id, topic } = useParams();
-  
+
   useEffect(() => {
     setLocation(topic);
   }, []);
@@ -42,20 +42,28 @@ export default function SingleArticle() {
   }, []);
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <ErrorHandling code={isError.response.status} msg={isError.response.data.msg}/>
+  if (isError)
+    return (
+      <ErrorHandling
+        code={isError.response.status}
+        msg={isError.response.data.msg}
+      />
+    );
 
   return (
     <>
-      <ArticleCard article={articleData} />
-      {user ? (
-        <AddComment
-          setCommentList={setCommentList}
-          article_id={articleData.article_id}
-          setArticleData={setArticleData}
-        />
-      ) : null}
-       <div id="comments">
-        <Box component="div">
+      <div id="article">
+        <ArticleCard article={articleData} />
+        {user ? (
+          <AddComment
+            setCommentList={setCommentList}
+            article_id={articleData.article_id}
+            setArticleData={setArticleData}
+          />
+        ) : null}
+      </div>
+      <div id="comments">
+        <Box component="div" sx={{ maxWidth: 1280, width: 1 }}>
           <Typography variant="h5">
             Comments{" "}
             {articleData.comment_count
@@ -75,7 +83,9 @@ export default function SingleArticle() {
             );
           })
         ) : (
-          <Card sx={{ maxWidth: 800, minWidth: 300, marginTop: 1, padding: 1 }}>
+          <Card
+            sx={{ maxWidth: 1280, minWidth: 300, marginTop: 1, padding: 1 }}
+          >
             <Typography variant="body1" color="text.secondary">
               No comments yet...
             </Typography>

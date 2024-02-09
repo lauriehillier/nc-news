@@ -27,12 +27,14 @@ export default function Articles({}) {
     if (urlOrder !== order) setOrder(urlOrder);
     if (urlSort !== sort)
       setSort(
-        Object.keys(sortString).find((key) => sortString[key] === urlSort)
-      || urlSort);
+        Object.keys(sortString).find((key) => sortString[key] === urlSort) ||
+          urlSort
+      );
   }, [urlOrder, urlSort]);
   console.log(sort);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setIsLoading(true);
     ncNewsGet("/articles", { params: { topic, order: order, sort_by: sort } })
       .then(({ data: { articles } }) => {
@@ -61,7 +63,7 @@ export default function Articles({}) {
 
   if (!articlesList.length)
     return (
-      <Paper elevation={1} sx={{ maxWidth: 800, width: 1, mt: 1 }}>
+      <Paper elevation={1} sx={{ maxWidth: 1280, width: 1, mt: 1 }}>
         <Typography sx={{ padding: 1 }} variant="body1" color="text.secondary">
           No articles yet...
         </Typography>

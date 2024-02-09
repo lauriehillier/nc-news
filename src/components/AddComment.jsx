@@ -76,10 +76,10 @@ export default function AddComment({
   };
   return (
     <>
-      <Box component="div" sx={{ maxWidth: 800, width: 1 }}>
-        <Typography variant="h5">Add a Comment</Typography>
+      <Box component="div" sx={{ maxWidth: 1280, width: 1}}>
+        <Typography variant="h5"  sx={{padding: 1}}>Add a Comment</Typography>
       </Box>
-      <Paper elevation={1} sx={{ maxWidth: 800, width: 1, maxHeight: 1 }}>
+      <Paper elevation={1} sx={{ maxWidth: 1280, width: 1 }}>
         <Box component="form" sx={{ padding: 1 }}>
           <TextField
             required

@@ -47,7 +47,7 @@ export default function Sorting({ order, sort }) {
 
   return (
     <>
-      <Paper elevation={1} sx={{ maxWidth: 800, width: 1, marginTop: 1 }}>
+      <Paper elevation={1} sx={{ maxWidth: 1280, width: 1, marginTop: 1 }}>
         <Box
           component="div"
           sx={{

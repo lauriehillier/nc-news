@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { useContext, useState } from "react";
 import { ncNewsDelete } from "../api/APIUtils";
+import { Box } from "@mui/material";
 
 export default function CommentCard({
   comment,
@@ -27,7 +28,10 @@ export default function CommentCard({
     ncNewsDelete(`comments/${comment.comment_id}`)
       .then(() => {
         setArticleData((currentArticle) => {
-          return {...currentArticle, comment_count: --currentArticle.comment_count};
+          return {
+            ...currentArticle,
+            comment_count: --currentArticle.comment_count,
+          };
         });
         setCommentList((currentCommentList) => {
           const updatedComments = currentCommentList.filter(
@@ -43,17 +47,22 @@ export default function CommentCard({
   };
 
   return (
-    <Card sx={{ maxWidth: 800, width: 1, marginTop: 1 }}>
-      <CardContent sx={{ padding: 1,"&:last-child": {
-      paddingBottom: 0.5,
-    } }}>
+    <Card sx={{ maxWidth: 1280, width: 1, marginTop: 1 }}>
+      <CardContent
+        sx={{
+          padding: 1,
+          "&:last-child": {
+            paddingBottom: 0.5,
+          },
+        }}
+      >
         <Typography variant="body1" color="text.secondary" sx={{ padding: 1 }}>
           {comment.body}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Posted by <Link to="">{comment.author}</Link> at {formattedDate}
         </Typography>
-        <Typography variant="overline">Rating: {comment.votes}</Typography>
+        <Typography variant="overline">Rating: <Box component="span" fontWeight="bold">{comment.votes}</Box></Typography>
       </CardContent>
       {comment.author === user.username ? (
         <CardActions sx={{ paddingTop: 0 }}>
