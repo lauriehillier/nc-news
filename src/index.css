@@ -3,11 +3,15 @@
   line-height: 1.5;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.87);
-  background-color: #eeeeee;
+  background-color: #E8E8E8;
 }
 body {
   min-width: 320px;
   min-height: 100vh;
-  max-width: 960px;
   margin: auto;
+  
+}
+.nav-link {
+  text-decoration: none;
+  color: inherit;
 }

@@ -12,6 +12,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { ncNewsPatch } from "../api/APIUtils";
+import { Box } from "@mui/material";
 
 export default function ArticleCard({ article }) {
   const { user } = useContext(UserContext);
@@ -38,17 +39,21 @@ export default function ArticleCard({ article }) {
   const img_height = article.body ? 400 : 140;
 
   return (
-    <Card sx={{ maxWidth: 800, width: 1, marginTop: 1, maxHeight: 1 }}>
+    <Card sx={{ maxWidth: 1280, marginTop: 1, maxHeight: 1}}>
       <CardMedia
         sx={{ height: img_height }}
         image={article.article_img_url}
         title="article image"
         component="img"
       />
-      <CardContent sx={{ "&:last-child": {
-      paddingBottom: 0.5,
-    }}}>
-        <Typography gutterBottom variant="h4" component="div">
+      <CardContent
+        sx={{
+          "&:last-child": {
+            paddingBottom: 0.5,
+          },
+        }}
+      >
+        <Typography gutterBottom variant="h4" component="div" fontWeight="bold">
           {id ? (
             <>{article.title}</>
           ) : (
@@ -78,7 +83,7 @@ export default function ArticleCard({ article }) {
           at {formattedDate}
         </Typography>
         <Typography variant="overline">
-          Rating:
+          Rating: <Box component="span" fontWeight="bold">
           {user ? (
             <>
               <IconButton
@@ -111,7 +116,7 @@ export default function ArticleCard({ article }) {
             </>
           ) : (
             " " + article.votes
-          )}
+          )}</Box>
           {article.body ? null : ` // Comments: ${article.comment_count}`}
         </Typography>
         {err ? (
