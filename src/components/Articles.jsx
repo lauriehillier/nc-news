@@ -28,8 +28,9 @@ export default function Articles({}) {
     if (urlSort !== sort)
       setSort(
         Object.keys(sortString).find((key) => sortString[key] === urlSort)
-      );
+      || urlSort);
   }, [urlOrder, urlSort]);
+  console.log(sort);
 
   useEffect(() => {
     setIsLoading(true);
@@ -61,11 +62,7 @@ export default function Articles({}) {
   if (!articlesList.length)
     return (
       <Paper elevation={1} sx={{ maxWidth: 800, width: 1, mt: 1 }}>
-        <Typography
-          sx={{ padding: 1 }}
-          variant="body1"
-          color="text.secondary"
-        >
+        <Typography sx={{ padding: 1 }} variant="body1" color="text.secondary">
           No articles yet...
         </Typography>
       </Paper>
