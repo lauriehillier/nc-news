@@ -6,6 +6,8 @@ import Sorting from "./Sorting";
 import ErrorHandling from "./ErrorHandling";
 import Typography from "@mui/material/Typography";
 import { Paper } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 export default function Articles({}) {
   const [order, setOrder] = useState(undefined);
@@ -13,11 +15,21 @@ export default function Articles({}) {
   const [articlesList, setArticlesList] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [totalArticles, setTotalArticles] = useState(null);
   const { topic } = useParams();
-
-  let [searchParams] = useSearchParams();
+  const [page, setPage] = useState(1);
+  let [searchParams, setSearchParams] = useSearchParams();
+  console.log(page);
+  const handlePageChange = (event, value) => {
+    setPage(value);
+    setSearchParams({
+      ...Object.fromEntries([...searchParams]),
+      p: value,
+    });
+  };
   const urlOrder = searchParams.get("order");
   const urlSort = searchParams.get("sort");
+  const urlPage = searchParams.get("p");
   const sortString = {
     created_at: "date",
     comment_count: "comments",
@@ -30,22 +42,24 @@ export default function Articles({}) {
         Object.keys(sortString).find((key) => sortString[key] === urlSort) ||
           urlSort
       );
-  }, [urlOrder, urlSort]);
-  console.log(sort);
+      if (urlPage !== page) setPage(urlPage)
+  }, [urlOrder, urlSort,urlPage]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsLoading(true);
-    ncNewsGet("/articles", { params: { topic, order: order, sort_by: sort } })
+    ncNewsGet("/articles", { params: { topic, order: order, sort_by: sort, p: page } })
       .then(({ data: { articles } }) => {
         setIsLoading(false);
         setArticlesList(articles);
+        setTotalArticles(articles[0].total_count);
       })
       .catch((err) => {
         setIsLoading(false);
         setIsError(err);
       });
-  }, [topic, order, sort]);
+  }, [topic, order, sort, page]);
+  console.log(totalArticles);
 
   if (isLoading)
     return (
@@ -56,8 +70,8 @@ export default function Articles({}) {
   if (isError)
     return (
       <ErrorHandling
-        code={isError.response.status}
-        msg={isError.response.data.msg}
+        code={isError.response.status || null}
+        msg={isError.response.data.msg || null}
       />
     );
 
@@ -77,10 +91,20 @@ export default function Articles({}) {
         order={order}
         sort={sort}
         setSort={setSort}
+        setPage={setPage}
       />
       {articlesList.map((article) => {
         return <ArticleCard key={article.article_id} article={article} />;
       })}
+      <Paper elevation={1} sx={{ maxWidth: 1280, width: 1, mt: 1 }}>
+        <Stack useFlexGap={true} alignItems="center">
+          <Pagination
+            count={Math.ceil(totalArticles / 10)}
+            page={+page || 1}
+            onChange={handlePageChange}
+          />
+        </Stack>
+      </Paper>
     </div>
   );
 }
