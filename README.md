@@ -1,6 +1,6 @@
 # NC News
 A social media platform and community where users can post, discuss, and vote on a wide variety of content across numerous topics.
-* Hosted: https://lh-nc-news.netlify.app/ 
+* Hosted: http://ncnews.lauriehillier.com/
     * Logged in as a user by default
     * May take a few moments for the API to warm up
 * Backend repo: https://github.com/lauriehillier/be-nc-news
